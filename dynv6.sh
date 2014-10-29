@@ -1,13 +1,18 @@
 #!/bin/sh -e
 hostname=$1
-current=$(ip -6 addr list scope global dynamic temporary | grep -v "fd00" | egrep -o '([0-9a-f:]+)/[0-9]+' | head -n1)
+device=$2
 file=$HOME/.dynv6.addr6
 [ -e $file ] && old=`cat $file`
 
 if [ -z "$hostname" -o -z "$TOKEN" ]; then
-  echo "Usage: TOKEN=<your-authentication-token> $0 your-name.dynv6.net"
+  echo "Usage: TOKEN=<your-authentication-token> $0 your-name.dynv6.net [device]"
   exit 1
 fi
+
+if [ -n "$device" ]; then
+  device="dev $device"
+fi
+current=$(ip -6 addr list scope global dynamic $device | grep -v " fd" | egrep -o '([0-9a-f:]+)/[0-9]+' | head -n1)
 
 if [ -e /usr/bin/curl ]; then
   bin="curl -fsS"
