@@ -5,8 +5,12 @@ file=$HOME/.dynv6.addr6
 [ -e $file ] && old=`cat $file`
 
 if [ -z "$hostname" -o -z "$TOKEN" ]; then
-  echo "Usage: TOKEN=<your-authentication-token> $0 your-name.dynv6.net [device]"
+  echo "Usage: TOKEN=<your-authentication-token> [netmask=64] $0 your-name.dynv6.net [device]"
   exit 1
+fi
+
+if [ -n "$netmask" ]; then
+  netmask=128
 fi
 
 if [ -n "$device" ]; then
@@ -34,7 +38,7 @@ if [ "$old" = "$current" ]; then
 fi
 
 # send addresses to dynv6
-$bin "http://dynv6.com/api/update?hostname=$hostname&ipv6=$current&token=$TOKEN"
+$bin "http://dynv6.com/api/update?hostname=$hostname&ipv6=$current/$netmask&token=$TOKEN"
 $bin "http://ipv4.dynv6.com/api/update?hostname=$hostname&ipv4=auto&token=$TOKEN"
 
 # save current address
