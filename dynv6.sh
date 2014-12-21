@@ -16,7 +16,7 @@ fi
 if [ -n "$device" ]; then
   device="dev $device"
 fi
-current=$(ip -6 addr list scope global dynamic $device | grep -v " fd" | egrep -o '([0-9a-f:]+)/[0-9]+' | head -n1)
+current=$(ip -6 addr list scope global dynamic $device | grep -v " fd" | sed -n 's/.*inet6 \([0-9a-f:]\+\).*/\1/p' | head -n 1)
 
 if [ -e /usr/bin/curl ]; then
   bin="curl -fsS"
