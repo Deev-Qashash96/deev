@@ -5,7 +5,7 @@ file=$HOME/.dynv6.addr6
 [ -e $file ] && old=`cat $file`
 
 if [ -z "$hostname" -o -z "$token" ]; then
-  echo "Usage: token=<your-authentication-token> [netmask=64] $0 your-name.dynv6.net [device]"
+  echo "Usage: token=YZMUGozGg2D-MxAPemoewCAFU72FHQ [netmask=64] $0 deev96.dynv6.net [device]"
   exit 1
 fi
 
